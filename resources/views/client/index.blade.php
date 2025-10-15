@@ -19,7 +19,7 @@
                     </div>
                     <div class="basis-1/3 bg-white h-[60vh] overflow-scroll rounded-md p-3">
                         <h1 class="text-xl font-bold">Filter</h1>
-                        <form action="/" method="GET" class="flex flex-col items-start">
+                        <form action="{{ route('client.index') }}" method="GET" class="flex flex-col items-start">
                             <x-text-input name="search" value="{{ request('search') }}" placeholder="Search"></x-text-input>
                             <p>Sort</p>
                             <div class="flex gap-4">
