@@ -21,6 +21,19 @@
                         <h1 class="text-xl font-bold">Filter</h1>
                         <form action="/" method="GET" class="flex flex-col items-start">
                             <x-text-input name="search" value="{{ request('search') }}" placeholder="Search"></x-text-input>
+                            <p>Sort</p>
+                            <div class="flex gap-4">
+                                <input type="radio" name="sort" value="" id="nosort" @checked(!request('sort'))>
+                                <label for="nosort">No sort</label>
+                            </div>
+                            <div class="flex gap-4">
+                                <input type="radio" name="sort" value="az" id="az" @checked(request('sort') === 'az')>
+                                <label for="az">A-Z</label>
+                            </div>
+                            <div class="flex gap-4">
+                                <input type="radio" name="sort" value="za" id="za" @checked(request('sort') === 'za')>
+                                <label for="za">Z-A</label>
+                            </div>
                             <button type="submit" class="mt-4 bg-blue-500 px-2 py-1 text-white rounded-md">Submit</button>
                         </form>
                     </div>
