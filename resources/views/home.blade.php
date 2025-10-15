@@ -19,6 +19,10 @@
                     </div>
                     <div class="basis-1/3 bg-white h-[60vh] overflow-scroll rounded-md p-3">
                         <h1 class="text-xl font-bold">Filter</h1>
+                        <form action="/" method="GET" class="flex flex-col items-start">
+                            <x-text-input name="search" value="{{ request('search') }}" placeholder="Search"></x-text-input>
+                            <button type="submit" class="mt-4 bg-blue-500 px-2 py-1 text-white rounded-md">Submit</button>
+                        </form>
                     </div>
                 </div>
         </x-dashboard>

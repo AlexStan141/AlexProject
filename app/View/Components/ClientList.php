@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class ClientList extends Component
@@ -12,11 +13,11 @@ class ClientList extends Component
      * Create a new component instance.
      */
 
-    public $clients;
-
-    public function __construct($clients)
+    public function __construct(
+        public Collection $clients
+    )
     {
-        $this->clients = $clients;
+        //
     }
 
     /**
