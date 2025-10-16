@@ -1,20 +1,24 @@
 <div>
-    <table class="bg-slate-300">
-        <thead>
-            <tr>
-                <th class="p-2 border-1">Client name</th>
-                <th class="p-2 border-1">Email</th>
-                <th class="p-2 border-1">Actions</th>
-            </tr>
-            @forelse($clients as $client)
+    @if(count($clients))
+        <table class="bg-slate-300">
+            <thead>
                 <tr>
-                    <td class="p-2 text-center border-1">{{ $client->client_name }}</td>
-                    <td class="p-2 text-center border-1">{{ $client->email }}</td>
-                    <td class="p-2 text-center border-1"></td>
+                    <th class="p-2 border-1">Client name</th>
+                    <th class="p-2 border-1">Email</th>
+                    <th class="p-2 border-1">Actions</th>
                 </tr>
-            @empty
-                <p>No clients registered yet.</p>
-            @endforelse
-        </thead>
-    </table>
+            </thead>
+            <tbody>
+                @foreach($clients as $client)
+                    <tr>
+                        <td class="p-2 text-center border-1">{{ $client->full_name }}</td>
+                        <td class="p-2 text-center border-1"> TO DO</td>
+                        <td class="p-2 text-center border-1">TO DO</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @else
+        <p>No clients to display</p>
+    @endif
 </div>

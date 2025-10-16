@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,9 +21,12 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_name' => fake()->name,
-            'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
+            'full_name' => fake()->name,
+            'phone' => fake()->phoneNumber(),
+            'company_name' => fake()->company(),
+            'address'=> fake()->address(),
+            'notes' => fake()->paragraph(),
+            'status' => fake()->randomElement(Client::$status),
         ];
     }
 }
