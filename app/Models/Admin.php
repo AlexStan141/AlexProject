@@ -11,6 +11,8 @@ class Admin extends Model
     /** @use HasFactory<\Database\Factories\AdminFactory> */
     use HasFactory;
 
+    public static array $status = ['Active', 'Inactive'];
+
     public function user(): BelongsTo{
         return $this->belongsTo(User::class);
     }

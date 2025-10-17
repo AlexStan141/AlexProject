@@ -2,19 +2,19 @@
     <nav>
         <ul>
             <li>
-                @if ($active === 'Home')
-                    <a href="/" class="text-yellow-300">Home</a>
+                @if (auth()->user()->role === 'admin')
+                    <a href="/admin/dashboard" class={{ $active === 'Home' ? 'text-yellow-300' : 'text-white' }}>Home</a>
                 @else
-                    <a href="/" class="text-white">Home</a>
+                    <a href="/clients/dashboard" class={{ $active === 'Home' ? 'text-yellow-300' : 'text-white' }}>Home</a>
                 @endif
             </li>
             @if (auth()->user()->role === 'admin')
                 <li>
-                    @if ($active === 'Clients')
-                        <a href="/clients" class="text-yellow-300">Clients</a>
-                    @else
-                        <a href="/clients" class="text-white">Clients</a>
-                    @endif
+                    <a href="/admin/clients" class={{ $active === 'Clients' ? 'text-yellow-300' : 'text-white' }}>Clients</a>
+                </li>
+                <li>
+                    <a href="/admin/clients/create"
+                        class={{ $active === 'Create' ? 'text-yellow-300' : 'text-white' }}>Create</a>
                 </li>
             @endif
         </ul>

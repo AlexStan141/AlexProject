@@ -13,8 +13,11 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    public function userType(): hasOne{
-        return $this->hasOne(Client::class | Admin::class);
+    public function client(): hasOne{
+        return $this->hasOne(Client::class);
+    }
+    public function admin(): hasOne{
+        return $this->hasOne(Admin::class);
     }
 
     public static array $role = ['Client', 'Admin'];

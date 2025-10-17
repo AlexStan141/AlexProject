@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'Alex Stan',
+            'name' => 'Stan Nicolae-Alexandru',
             'email' => 'alexnstan@gmail.com',
             'role' => 'Admin'
         ]);
@@ -32,12 +32,20 @@ class DatabaseSeeder extends Seeder
         $users = User::all();
 
         Admin::factory()->create([
+            'full_name' => 'Stan Nicolae-Alexandru',
+            'phone' => '+1.234.567.8901',
+            'company_name' => 'Aura SRL.',
+            'address' => '1718 Koelpin Forge Apt. 760 Maurineside, CA 99984-3469',
+            'notes' => 'Gaudeamus igitur',
+            'status' => 'Active',
             'user_id' => $users->pop()->id
         ]);
 
         for($i = 0; $i < 10; $i++){
+            $user = $users->pop();
             Client::factory()->create([
-                'user_id' => $users->pop()->id
+                'user_id' => $user->id,
+                'full_name' => $user->name
             ]);
         }
     }

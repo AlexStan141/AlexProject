@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Factories;
+use App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,7 +18,12 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'full_name' => fake()->name,
+            'phone' => fake()->phoneNumber(),
+            'company_name' => fake()->company(),
+            'address'=> fake()->address(),
+            'notes' => fake()->paragraph(),
+            'status' => fake()->randomElement(Admin::$status),
         ];
     }
 }
