@@ -5,16 +5,18 @@ use App\Models\Client;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
-Route::get('/client', function () {
-    return view('client.index', [
-        'clients' => Client::all()
-    ]);
-})->middleware(['auth', 'client'])->name('client.index');
+Route::get('/dashboard', function () {
+    return redirect()->route('main.index');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/admin', function () {
+Route::get('/home', function(){
+    return view('main.index');
+})->middleware(['auth', 'verified'])->name('main.index');
+
+Route::get('/clients', function () {
     $clients = Client::with('user');
     $clients->when(request('search'), function ($query) {
         $query->where('full_name', 'like', '%' . request('search') . '%')
@@ -28,14 +30,10 @@ Route::get('/admin', function () {
             $query->orderBy('full_name', 'desc');
         }
     });
-    return view('admin.index', [
+    return view('main.clients', [
         'clients' => $clients->get()
     ]);
-})->middleware(['auth', 'admin'])->name('admin.index');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'admin'])->name('main.clients');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

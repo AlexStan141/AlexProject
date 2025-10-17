@@ -12,7 +12,7 @@
                 @foreach($clients as $client)
                     <tr>
                         <td class="p-2 text-center border-1">{{ $client->full_name }}</td>
-                        <td class="p-2 text-center border-1"> TO DO</td>
+                        <td class="p-2 text-center border-1">{{ $client->user->email }}</td>
                         <td class="p-2 text-center border-1">TO DO</td>
                     </tr>
                 @endforeach
