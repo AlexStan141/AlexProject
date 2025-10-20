@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Requests\ClientRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,8 +49,34 @@ Route::get('/admin/clients', function () {
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/clients/create', function () {
-        return view('admin.create');
+        return view('admin.create', [
+            'status' => old('status', null)
+        ]);
     })->name('admin.create');
+
+    Route::post('/admin/clients', function(ClientRequest $request){
+
+        $validated = $request->validated();
+
+        $user = User::create([
+            'name' => $validated['full_name'],
+            'email' => $validated['user']['email'],
+            'password' => bcrypt($validated['user']['password'])
+        ]);
+
+        Client::create([
+            'full_name' => $validated['full_name'],
+            'phone' => $validated['phone'],
+            'company_name' => $request->input('company_name'),
+            'address' => $request->input('address'),
+            'notes' => $request->input('notes'),
+            'status' => $validated['status'],
+            'user_id' => $user->id
+        ]);
+
+        return redirect() -> route('admin.clients')->with('success', 'Account added successfully!');
+
+    })->name('admin.store');
 });
 
 Route::middleware('auth')->group(function () {

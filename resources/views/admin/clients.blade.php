@@ -1,4 +1,7 @@
 <x-layout active="Clients">
+    @if(session() -> has('success'))
+        <div>{{session('success')}}</div>
+    @endif
     <div class="flex justify-between items-end mb-4">
         <div>
             <h1 class="text-3xl">Dashboard</h1>
