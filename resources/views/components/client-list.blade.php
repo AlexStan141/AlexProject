@@ -9,7 +9,7 @@
             <x-user-item status="{{ $client->status }}" fullName="{{ $client->full_name }}"
                 phone="{{ $client->phone }}" email="{{ $client->user->email }}"
                 address="{{ $client->address }}" companyName="{{ $client->company_name }}"
-                notes="{{ $client->notes }}">
+                notes="{{ $client->notes }}" userId="{{ $client->user->id }}">
             </x-user-item>
         @endforeach
     @else

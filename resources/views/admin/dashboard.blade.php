@@ -8,6 +8,7 @@
         email="{{ auth()->user()->email }}"
         address="{{ auth()->user()->admin->address }}"
         companyName="{{ auth()->user()->admin->company_name }}"
-        notes="{{ auth()->user()->admin->notes }}">
+        notes="{{ auth()->user()->admin->notes }}"
+        userId="{{ auth()->user()->id }}">
     </x-user-item>
 </x-layout>

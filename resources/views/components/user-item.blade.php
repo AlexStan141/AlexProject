@@ -25,5 +25,6 @@
         </div>
         <p class="text-sm py-2"><b class="font-bold">Company: </b>{{ $companyName }}</p>
         <p class="text-xs text-slate-500 py-2">{{ $notes }}</p>
+        <a href="/admin/clients/{{ $userId }}/edit">Edit</a>
     </div>
 </div>

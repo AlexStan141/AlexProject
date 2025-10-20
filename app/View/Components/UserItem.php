@@ -18,7 +18,8 @@ class UserItem extends Component
         public string $email,
         public string $address,
         public string $companyName,
-        public string $notes
+        public string $notes,
+        public string $userId
     )
     {
         //

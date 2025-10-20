@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\Admin;
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Admin as AdminModel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -77,6 +79,18 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
         return redirect() -> route('admin.clients')->with('success', 'Account added successfully!');
 
     })->name('admin.store');
+
+    Route::get('/admin/clients/{id}/edit', function($id){
+
+        if($id == '1'){
+            $userToEdit = AdminModel::findOrFail($id);
+        } else {
+            $userToEdit = Client::findOrFail($id - 1);
+        }
+        return view("admin.edit", ['client' => $userToEdit]);
+
+    });
+
 });
 
 Route::middleware('auth')->group(function () {

@@ -19,14 +19,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory(10)->create([
-            'role' => 'Client'
-        ]);
-
         User::factory()->create([
             'name' => 'Stan Nicolae-Alexandru',
             'email' => 'alexnstan@gmail.com',
             'role' => 'Admin'
+        ]);
+
+        User::factory(10)->create([
+            'role' => 'Client'
         ]);
 
         $users = User::all();
@@ -38,11 +38,11 @@ class DatabaseSeeder extends Seeder
             'address' => '1718 Koelpin Forge Apt. 760 Maurineside, CA 99984-3469',
             'notes' => 'Gaudeamus igitur',
             'status' => 'Active',
-            'user_id' => $users->pop()->id
+            'user_id' => $users->shift()->id
         ]);
 
         for($i = 0; $i < 10; $i++){
-            $user = $users->pop();
+            $user = $users->shift();
             Client::factory()->create([
                 'user_id' => $user->id,
                 'full_name' => $user->name
