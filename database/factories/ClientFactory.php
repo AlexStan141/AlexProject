@@ -25,7 +25,7 @@ class ClientFactory extends Factory
             'phone' => fake()->phoneNumber(),
             'company_name' => fake()->company(),
             'address'=> fake()->address(),
-            'notes' => fake()->paragraph(),
+            'notes' => fake()->sentence(),
             'status' => fake()->randomElement(Client::$status),
         ];
     }

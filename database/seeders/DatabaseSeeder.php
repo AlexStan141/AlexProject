@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'company_name' => 'Aura SRL.',
             'address' => '1718 Koelpin Forge Apt. 760 Maurineside, CA 99984-3469',
             'notes' => 'Gaudeamus igitur',
-            'status' => 'Active',
+            'status' => 'active',
             'user_id' => $users->shift()->id
         ]);
 

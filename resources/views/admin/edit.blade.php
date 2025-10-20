@@ -3,7 +3,7 @@
         <div>
             <h1 class="text-3xl">Add a client</h1>
         </div>
-        <form action="{{ route('admin.store') }}" method="POST">
+        <form action="{{ route('admin.update', ['client' => $client]) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -27,7 +27,7 @@
 
             <div>
                 <x-input-label for="password" value="Password"></x-input-label>
-                <x-text-input type="password" name="user[password]" placeholder="password" value="{{ $client->user->password }}"
+                <x-text-input type="password" name="user[password]" placeholder="password" 
                     required="{{ true }}" id="password"></x-text-input>
                 @error('password')
                     <p>{{ $message }}</p>
@@ -77,7 +77,7 @@
                                     <button type="button"
                                         @click="
                                         document.getElementById('status').value = '{{ $key }}';
-                                        document.getElementById('display-status').innerHTML = '{{ ucfirst($key) }}'
+                                        document.getElementById('display-status').innerHTML = '{{ $key }}'
                                         $dispatch('close')
                                     "
                                         class="block w-full text-left px-4 py-2 hover:bg-gray-100">
@@ -88,7 +88,7 @@
                         </ul>
                     </x-slot>
                 </x-dropdown>
-                <input type="hidden" name="status" id="status" value="{{ $client->full_name }}">
+                <input type="hidden" name="status" id="status" value="{{ $client->status }}">
                 @error('status')
                     <p>{{ $message }}</p>
                 @enderror
@@ -96,15 +96,15 @@
 
             <div>
                 <x-input-label for="notes" value="Notes" />
-                <x-text-area name="notes" placeholder="Something about yourself..." value="{{ $client->notes }}"
-                    id="notes"></x-text-area>
+                <x-text-area name="notes" placeholder="Something about yourself..."
+                    id="notes" value="{{ $client->notes }}"></x-text-area>
                 @error('notes')
                     <p>{{ $message }}</p>
                 @enderror
             </div>
 
             <x-primary-button class="mt-4">Submit</x-primary-button>
-            
+
         </form>
     </div>
 </x-layout>

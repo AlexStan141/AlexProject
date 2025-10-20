@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ClientRequest extends FormRequest
@@ -21,12 +22,21 @@ class ClientRequest extends FormRequest
      */
     public function rules(): array
     {
+        $client = $this->route('client'); // poate fi null la creare
+        $userId = $client?->user->id ?? null;
+        $method = $this->method();
         return [
             'full_name' => 'required|min:3',
             'phone' => 'nullable|regex:/^07[0-9]{8}$/',
             'status' => 'in:active,inactive',
-            'user.email' => 'required|unique:users,email',
-            'user.password' => 'required'
+            'user.email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($userId)
+            ],
+            'user.password' => $method === 'POST'
+            ? 'required|min:8'
+            : 'nullable|min:8'
         ];
     }
 }
