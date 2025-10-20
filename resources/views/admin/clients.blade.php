@@ -11,15 +11,12 @@
         </div>
     </div>
     <div class="flex gap-4">
-        <div class="basis-2/3 bg-white h-[60vh] overflow-scroll rounded-md p-3">
-            <p class="font-bold mb-4">Active clients</p>
-            <x-client-list :$clients></x-client-list>
-        </div>
-        <div class="basis-1/3 bg-white h-[60vh] overflow-scroll rounded-md p-3">
+        <x-client-list :$clients></x-client-list>
+        <div class="basis-1/3 bg-white h-[60vh] overflow-scroll rounded-md p-3 mt-4">
             <h1 class="text-xl font-bold">Filter</h1>
             <form action="{{ route('admin.clients') }}" method="GET" class="flex flex-col items-start">
                 <x-text-input name="search" value="{{ request('search') }}" placeholder="Search"></x-text-input>
-                <p>Sort</p>
+                <p class="mt-4">Sort</p>
                 <div class="flex gap-4">
                     <input type="radio" name="sort" value="" id="nosort" @checked(!request('sort'))>
                     <label for="nosort">No sort</label>
