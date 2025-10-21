@@ -19,7 +19,10 @@ class UserItem extends Component
         public string $address,
         public string $companyName,
         public string $notes,
-        public string $userId
+        public string $userId,
+        public string $role,
+        public ?string $type = "client",
+        public string $userIdWithinRole
     )
     {
         //

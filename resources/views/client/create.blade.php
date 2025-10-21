@@ -3,7 +3,7 @@
         <div>
             <h1 class="text-3xl">Add a client</h1>
         </div>
-        <form action="{{ route('admin.store') }}" method="POST">
+        <form action="{{ route('client.store') }}" method="POST">
             @csrf
 
             <div>

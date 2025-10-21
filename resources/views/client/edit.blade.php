@@ -1,15 +1,17 @@
 <x-layout active="Create">
     <div class="flex flex-col gap-4">
         <div>
-            <h1 class="text-3xl">Add a client</h1>
+            <h1 class="text-3xl">Edit a client</h1>
         </div>
-        <form action="{{ route('admin.update', ['admin' => $admin->id]) }}" method="POST">
+        <form
+            action="{{ route(Auth::user()->admin ? 'client.update.admin' : 'client.update.user', ['client' => $client->id]) }}"
+            method="POST"
+        >
             @csrf
             @method('PUT')
-
             <div>
                 <x-input-label for="full_name" value="Full Name"></x-input-label>
-                <x-text-input type="text" name="full_name" placeholder="Stan Alexandru" value="{{ $admin->full_name }}"
+                <x-text-input type="text" name="full_name" placeholder="Stan Alexandru" value="{{ $client->full_name }}"
                     required="{{ true }}" id="full_name"></x-text-input>
                 @error('full_name')
                     <p>{{ $message }}</p>
@@ -18,9 +20,9 @@
 
             <div>
                 <x-input-label for="email" value="Email"></x-input-label>
-                <x-text-input type="email" name="user[email]" placeholder="email@example.com" value="{{ $admin->user->email }}"
-                    required="{{ true }}" id="email"></x-text-input>
-                @error('email')
+                <x-text-input type="email" name="user[email]" placeholder="email@example.com"
+                    value="{{ $client->user->email }}" required="{{ true }}" id="email"></x-text-input>
+                @error('user.email')
                     <p>{{ $message }}</p>
                 @enderror
             </div>
@@ -36,7 +38,7 @@
 
             <div>
                 <x-input-label for="phone" value="Phone"></x-input-label>
-                <x-text-input type="tel" name="phone" placeholder="0766132455" value="{{ $admin->phone }}"
+                <x-text-input type="tel" name="phone" placeholder="0766132455" value="{{ $client->phone }}"
                     pattern="^07[0-9]{8}$" id="phone"></x-text-input>
                 @error('phone')
                     <p>{{ $message }}</p>
@@ -45,8 +47,8 @@
 
             <div>
                 <x-input-label for="company_name" value="Company Name"></x-input-label>
-                <x-text-input type="text" name="company_name" placeholder="LUCY SRL." value="{{ $admin->company_name }}"
-                    id="company_name"></x-text-input>
+                <x-text-input type="text" name="company_name" placeholder="LUCY SRL."
+                    value="{{ $client->company_name }}" id="company_name"></x-text-input>
                 @error('company_name')
                     <p>{{ $message }}</p>
                 @enderror
@@ -54,7 +56,7 @@
 
             <div>
                 <x-input-label for="address" value="Address"></x-input-label>
-                <x-text-area name="address" placeholder="Burlington Street nr.89" value="{{ $admin->address }}"
+                <x-text-area name="address" placeholder="Burlington Street nr.89" value="{{ $client->address }}"
                     id="address"></x-text-area>
                 @error('address')
                     <p>{{ $message }}</p>
@@ -67,7 +69,7 @@
                     <x-slot name="trigger">
                         <button type="button" class="w-full text-left px-4 py-2 border rounded bg-gray-100"
                             id="display-status">
-                            {{ ucfirst($admin->status) ?? 'Select a status' }}
+                            {{ ucfirst($client->status) ?? 'Select a status' }}
                         </button>
                     </x-slot>
                     <x-slot name="content">
@@ -77,7 +79,7 @@
                                     <button type="button"
                                         @click="
                                         document.getElementById('status').value = '{{ $key }}';
-                                        document.getElementById('display-status').innerText = '{{ ucfirst($key) }}';
+                                        document.getElementById('display-status').innerHTML = '{{ ucfirst($key) }}';
                                         $dispatch('close');
                                     "
                                         class="block w-full text-left px-4 py-2 hover:bg-gray-100">
@@ -88,7 +90,7 @@
                         </ul>
                     </x-slot>
                 </x-dropdown>
-                <input type="hidden" name="status" id="status" value="{{ $admin->status }}">
+                <input type="hidden" name="status" id="status" value="{{ $client->status }}">
                 @error('status')
                     <p>{{ $message }}</p>
                 @enderror
@@ -96,7 +98,7 @@
 
             <div>
                 <x-input-label for="notes" value="Notes" />
-                <x-text-area name="notes" placeholder="Something about yourself..." value="{{ $admin->notes }}"
+                <x-text-area name="notes" placeholder="Something about yourself..." value="{{ $client->notes }}"
                     id="notes"></x-text-area>
                 @error('notes')
                     <p>{{ $message }}</p>
@@ -109,5 +111,3 @@
         </form>
     </div>
 </x-layout>
-
-

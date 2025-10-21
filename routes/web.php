@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\Admin;
+use App\Http\Requests\AdminRequest;
 use App\Http\Requests\ClientRequest;
-use App\Http\Requests\UserRequest;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Admin as AdminModel;
@@ -23,11 +23,11 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+    return view('admin.show', ['admin' => Auth::user()->admin]);
 })->middleware(['auth', 'verified', 'admin'])->name('admin.dashboard');
 
 Route::get('/client/dashboard', function () {
-    return view('client.dashboard');
+    return view('client.show', ['client' => Auth::user()->client]);
 })->middleware(['auth', 'verified'])->name('client.dashboard');
 
 Route::get('/admin/clients', function () {
@@ -44,14 +44,105 @@ Route::get('/admin/clients', function () {
             $query->orderBy('full_name', 'desc');
         }
     });
-    return view('admin.clients', [
+    return view('client.index', [
         'clients' => $clients->get()
     ]);
 })->middleware(['auth', 'verified', 'admin'])->name('admin.clients');
 
+
+Route::get('/admin/{admin}/edit', function (AdminModel $admin) {
+    return view('admin.edit', ['admin' => $admin]);
+})->middleware(['auth', 'verified', 'admin'])->name('admin.edit');
+
+Route::get('/client/{client}/edit', function (Client $client) {
+    return view('client.edit', ['client' => $client]);
+})->middleware(['auth', 'verified'])->name('client.edit.user');
+
+Route::put('/admin/{admin}', function (AdminModel $admin, AdminRequest $request){
+    $validated = $request->validated();
+    $user = $admin->user;
+    $user->update([
+        'name' => $validated['full_name'],
+        'email' => $validated['user']['email'],
+    ]);
+    if (!empty($validated['user']['password'])) {
+        $user->update([
+            'password' => bcrypt($validated['user']['password']),
+        ]);
+    }
+    $admin->update([
+        'full_name' => $validated['full_name'],
+        'phone' => $validated['phone'],
+        'company_name' => $request->input('company_name'),
+        'address' => $request->input('address'),
+        'notes' => $request->input('notes'),
+        'status' => $validated['status'],
+    ]);
+    return redirect()->route('admin.dashboard')->with('success', 'Account updated successfully!');
+})->name('admin.update');
+
+Route::put('/client/{client}', function (Client $client, ClientRequest $request) {
+    $validated = $request->validated();
+    $user = $client->user;
+    $user->update([
+        'name' => $validated['full_name'],
+        'email' => $validated['user']['email'],
+    ]);
+    if (!empty($validated['user']['password'])) {
+        $user->update([
+            'password' => bcrypt($validated['user']['password']),
+        ]);
+    }
+    $client->update([
+        'full_name' => $validated['full_name'],
+        'phone' => $validated['phone'],
+        'company_name' => $request->input('company_name'),
+        'address' => $request->input('address'),
+        'notes' => $request->input('notes'),
+        'status' => $validated['status'],
+    ]);
+    return redirect()->route('client.dashboard')->with('success', 'Account updated successfully!');
+})->name('client.update.user');
+
+
+
+
+Route::get('/admin/clients/{client}/edit', function (Client $client) {
+    return view("client.edit", ['client' => $client]);
+})->name("client.edit.admin");
+
+Route::put('/admin/clients/{client}', function (ClientRequest $request, Client $client) {
+
+    $validated = $request->validated();
+    $user = $client->user;
+    $user->update([
+        'name' => $validated['full_name'],
+        'email' => $validated['user']['email'],
+    ]);
+    if (!empty($validated['user']['password'])) {
+        $user->update([
+            'password' => bcrypt($validated['user']['password']),
+        ]);
+    }
+    $client->update([
+        'full_name' => $validated['full_name'],
+        'phone' => $validated['phone'],
+        'company_name' => $request->input('company_name'),
+        'address' => $request->input('address'),
+        'notes' => $request->input('notes'),
+        'status' => $validated['status'],
+    ]);
+    return redirect()->route('admin.clients')->with('success', 'Account updated successfully!');
+})->name('client.update.admin');
+
+
+
+
+
+
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/clients/create', function () {
-        return view('admin.create', [
+        return view('client.create', [
             'status' => old('status', null)
         ]);
     })->name('admin.create');
@@ -77,48 +168,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
         ]);
 
         return redirect()->route('admin.clients')->with('success', 'Account added successfully!');
-    })->name('admin.store');
-
-    Route::get('/admin/clients/{client}/edit', function (Client $client) {
-
-        if ($client->id == '1') {
-            $userToEdit = AdminModel::findOrFail($client->id);
-        } else {
-            $userToEdit = Client::findOrFail($client->id - 1);
-        }
-        return view("admin.edit", ['client' => $userToEdit]);
-    })->name("admin.edit");
-
-    Route::get('/admin/clients/{client}', function (Client $client) {
-        $client = Client::findOrFail($client->id);
-        return view("admin.showclient", ['client' => $client]);
-    })->name("admin.show");
-
-    Route::put('/admin/clients/{client}', function (Client $client, ClientRequest $request) {
-        $validated = $request->validated();
-        $user = User::findOrFail($client->user->id);
-        $user->update([
-            'name' => $validated['full_name'],
-            'email' => $validated['user']['email'],
-        ]);
-
-        if (!empty($validated['user']['password'])) {
-            $user->update([
-                'password' => bcrypt($validated['user']['password'])
-            ]);
-        }
-
-        $client->update([
-            'full_name' => $validated['full_name'],
-            'phone' => $validated['phone'],
-            'company_name' => $request->input('company_name'),
-            'address' => $request->input('address'),
-            'notes' => $request->input('notes'),
-            'status' => $validated['status'],
-            'user_id' => $user->id
-        ]);
-        return redirect()->route('admin.show', ['client' => $client])->with('success', 'Account updated successfully!');
-    })->name("admin.update");
+    })->name('client.store');
 });
 
 Route::middleware('auth')->group(function () {
