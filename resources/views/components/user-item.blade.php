@@ -25,12 +25,22 @@
         </div>
         <p class="text-sm py-2"><b class="font-bold">Company: </b>{{ $companyName }}</p>
         <p class="text-xs text-slate-500 py-2">{{ $notes }}</p>
-        @if($type === 'client')
-            <a href="/admin/clients/{{ $userIdWithinRole }}/edit">Edit</a>
-        @elseif($role === 'admin')
-            <a href="/admin/{{ $userIdWithinRole }}/edit">Edit</a>
-        @else
-            <a href="/client/{{ $userIdWithinRole }}/edit">Edit</a>
-        @endif
+
+        <div class="flex gap-4">
+            @if ($type === 'client')
+                <a href="/admin/clients/{{ $userIdWithinRole }}/edit">Edit</a>
+            @elseif($role === 'admin')
+                <a href="/admin/{{ $userIdWithinRole }}/edit">Edit</a>
+            @else
+                <a href="/client/{{ $userIdWithinRole }}/edit">Edit</a>
+            @endif
+            @if ($type === 'client')
+                <form action="{{ route('client.destroy', ['client' => $userIdWithinRole]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-500">Delete</button>
+                </form>
+            @endif
+        </div>
     </div>
 </div>

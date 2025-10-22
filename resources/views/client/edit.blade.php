@@ -6,60 +6,61 @@
         <form
             action="{{ route(Auth::user()->admin ? 'client.update.admin' : 'client.update.user', ['client' => $client->id]) }}"
             method="POST"
+            class="flex flex-col gap-2 items-start w-full"
         >
             @csrf
             @method('PUT')
             <div>
                 <x-input-label for="full_name" value="Full Name"></x-input-label>
                 <x-text-input type="text" name="full_name" placeholder="Stan Alexandru" value="{{ $client->full_name }}"
-                    required="{{ true }}" id="full_name"></x-text-input>
+                    required="{{ true }}" id="full_name" class="w-200"></x-text-input>
                 @error('full_name')
-                    <p>{{ $message }}</p>
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
                 <x-input-label for="email" value="Email"></x-input-label>
                 <x-text-input type="email" name="user[email]" placeholder="email@example.com"
-                    value="{{ $client->user->email }}" required="{{ true }}" id="email"></x-text-input>
+                    value="{{ $client->user->email }}" required="{{ true }}" id="email" class="w-200"></x-text-input>
                 @error('user.email')
-                    <p>{{ $message }}</p>
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
                 <x-input-label for="password" value="Password"></x-input-label>
                 <x-text-input type="password" name="user[password]" placeholder="password" value=""
-                    required="{{ true }}" id="password"></x-text-input>
+                    required="{{ true }}" id="password" class="w-200"></x-text-input>
                 @error('password')
-                    <p>{{ $message }}</p>
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
                 <x-input-label for="phone" value="Phone"></x-input-label>
                 <x-text-input type="tel" name="phone" placeholder="0766132455" value="{{ $client->phone }}"
-                    pattern="^07[0-9]{8}$" id="phone"></x-text-input>
+                    pattern="^07[0-9]{8}$" id="phone" class="w-200"></x-text-input>
                 @error('phone')
-                    <p>{{ $message }}</p>
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
                 <x-input-label for="company_name" value="Company Name"></x-input-label>
                 <x-text-input type="text" name="company_name" placeholder="LUCY SRL."
-                    value="{{ $client->company_name }}" id="company_name"></x-text-input>
+                    value="{{ $client->company_name }}" id="company_name" class="w-200"></x-text-input>
                 @error('company_name')
-                    <p>{{ $message }}</p>
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
                 <x-input-label for="address" value="Address"></x-input-label>
                 <x-text-area name="address" placeholder="Burlington Street nr.89" value="{{ $client->address }}"
-                    id="address"></x-text-area>
+                    id="address" class="w-200"></x-text-area>
                 @error('address')
-                    <p>{{ $message }}</p>
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -92,16 +93,16 @@
                 </x-dropdown>
                 <input type="hidden" name="status" id="status" value="{{ $client->status }}">
                 @error('status')
-                    <p>{{ $message }}</p>
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
                 <x-input-label for="notes" value="Notes" />
                 <x-text-area name="notes" placeholder="Something about yourself..." value="{{ $client->notes }}"
-                    id="notes"></x-text-area>
+                    id="notes" class="w-200"></x-text-area>
                 @error('notes')
-                    <p>{{ $message }}</p>
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>
 

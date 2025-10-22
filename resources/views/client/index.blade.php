@@ -1,14 +1,13 @@
 <x-layout active="Clients">
-    @if (session()->has('success'))
-        <div>{{ session('success') }}</div>
-    @endif
-
     <div class="flex gap-4 mt-4 items-start">
         <div class="basis-3/4 flex flex-col gap-4">
             <div>
                 <h1 class="text-3xl">Dashboard</h1>
                 <h2>Here's what's happening in your acount today</h2>
             </div>
+            @if(session() -> has('success'))
+                <div class="bg-green-300 text-green-600 py-3 px-5 mt-4">{{ session('success') }}</div>
+            @endif
             <x-client-list :$clients></x-client-list>
         </div>
         <div class="basis-1/4 flex flex-col gap-4 mt-7">

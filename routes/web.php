@@ -170,6 +170,13 @@ Route::post('/admin/clients', function (ClientRequest $request) {
     return redirect()->route('admin.clients')->with('success', 'Account added successfully!');
 })->name('client.store');
 
+Route::delete('/admin/clients/{client}', function(Client $client){
+    $user = User::findOrFail($client->user->id);
+    $client->delete();
+    $user->delete();
+    return redirect()->route('admin.clients')->with('success', 'Account deleted successfully!');
+})->name('client.destroy');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
